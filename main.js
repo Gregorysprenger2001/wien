@@ -12,11 +12,11 @@ let stephansdom = {
 let map = L.map("map").setView([stephansdom.lat, stephansdom.lng], stephansdom.zoom);
 
 //Overlays definieren
-let overlays = {    
-    sights : L.featureGroup().addTo(map),
+let overlays = {
+    sights: L.featureGroup().addTo(map),
     lines: L.featureGroup().addTo(map),
     stops: L.featureGroup().addTo(map),
-    zones : L.featureGroup().addTo(map),
+    zones: L.featureGroup().addTo(map),
 }
 
 // Layercontrol 
@@ -28,12 +28,12 @@ L.control.layers({
     "BasemapAT Oberfläche": L.tileLayer.provider('BasemapAT.overlay'),
     "BasemapAT HighDPI": L.tileLayer.provider('BasemapAT.highdpi'),
     "BasemapAT Orthophoto": L.tileLayer.provider('BasemapAT.orthofoto'),
-},{
+}, {
     "Sehenswürdigkeiten": overlays.sights,
     "Vienna Sightseeing Linien": overlays.lines,
     "Vienna sightseeing Haltestellen": overlays.stops,
     "Fußgängerzonen": overlays.zones,
-}) .addTo(map);
+}).addTo(map);
 
 //Maßstab
 L.control.scale({
@@ -43,13 +43,13 @@ L.control.scale({
 //Sehenwürdigkeiten Standorte Wien
 
 async function loadSights(url) {
-     //console.log(url);
-     let response = await fetch(url);
-     let jsondata = await response.json();
-     //console.log(jsondata);
-     L.geoJSON(jsondata, {
+    //console.log(url);
+    let response = await fetch(url);
+    let jsondata = await response.json();
+    //console.log(jsondata);
+    L.geoJSON(jsondata, {
         attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
-    }) .addTo(overlays.sights);
+    }).addTo(overlays.sights);
 }
 
 
@@ -61,19 +61,19 @@ async function loadLines(url) {
     let jsondata = await response.json();
     //console.log(jsondata);
     L.geoJSON(jsondata, {
-       attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
-   }) .addTo(overlays.lines);
+        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
+    }).addTo(overlays.lines);
 }
 
- //Haltestellen
+//Haltestellen
 async function loadStops(url) {
     //console.log(url);
     let response = await fetch(url);
     let jsondata = await response.json();
     //console.log(jsondata);
     L.geoJSON(jsondata, {
-       attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
-   }) .addTo(overlays.stops);
+        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
+    }).addTo(overlays.stops);
 }
 
 // Fußgängerzonen
@@ -83,8 +83,8 @@ async function loadZones(url) {
     let jsondata = await response.json();
     //console.log(jsondata);
     L.geoJSON(jsondata, {
-       attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
-   }) .addTo(overlays.zones);
+        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
+    }).addTo(overlays.zones);
 }
 // geoJson laden und visualisieren
 loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json")
