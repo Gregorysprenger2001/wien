@@ -46,7 +46,7 @@ async function loadSights(url) {
      //console.log(jsondata);
      L.geoJSON(jsondata, {
         attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
-    }) .addTo(map);
+    }) .addTo(overlays.sights);
 }
 
 
@@ -59,7 +59,7 @@ async function loadLines(url) {
     //console.log(jsondata);
     L.geoJSON(jsondata, {
        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
-   }) .addTo(map);
+   }) .addTo(overlays.lines);
 }
 
  //Haltestellen
@@ -70,7 +70,7 @@ async function loadStops(url) {
     //console.log(jsondata);
     L.geoJSON(jsondata, {
        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
-   }) .addTo(map);
+   }) .addTo(overlays.stops);
 }
 
 // Fußgängerzonen
@@ -81,7 +81,7 @@ async function loadZones(url) {
     //console.log(jsondata);
     L.geoJSON(jsondata, {
        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
-   }) .addTo(map);
+   }) .addTo(overlays.zones);
 }
 // geoJson laden und visualisieren
 loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json")
