@@ -50,7 +50,14 @@ async function loadSights(url) {
     let jsondata = await response.json();
     //console.log(jsondata);
     L.geoJSON(jsondata, {
-        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
+        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>",
+        pointToLayer: function(feature, latlng){
+            return L.marker(latlng, {
+                icon: L.icon({
+                    iconUrl: "icons/photo.png"
+                })
+            });
+        }
     }).addTo(overlays.sights);
 }
 
@@ -65,7 +72,7 @@ async function loadLines(url) {
     L.geoJSON(jsondata, {
         attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>",
         style: function (feature) {
-            console.log(feature.properties.LINE_NAME);
+            //console.log(feature.properties.LINE_NAME);
             let lineColor;
 
             if (feature.properties.LINE_NAME== "Yellow Line") {
