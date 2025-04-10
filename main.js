@@ -51,12 +51,12 @@ async function loadSights(url) {
     //console.log(jsondata);
     L.geoJSON(jsondata, {
         attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>",
-        pointToLayer: function(feature, latlng){
+        pointToLayer: function (feature, latlng) {
             return L.marker(latlng, {
                 icon: L.icon({
                     iconUrl: "icons/photo.png",
-                    iconAnchor:[16, 37],
-                    popupanchor:[0, -37]
+                    iconAnchor: [16, 37],
+                    popupanchor: [0, -37]
                 })
             });
         }
@@ -77,7 +77,7 @@ async function loadLines(url) {
             //console.log(feature.properties.LINE_NAME);
             let lineColor;
 
-            if (feature.properties.LINE_NAME== "Yellow Line") {
+            if (feature.properties.LINE_NAME == "Yellow Line") {
                 lineColor = "#FFDC00";
             } else if (feature.properties.LINE_NAME == "Blue Line") {
                 lineColor = "#0074D9";
@@ -92,7 +92,8 @@ async function loadLines(url) {
             } else {
                 lineColor = "#111111";
             }
-            return {color: lineColor
+            return {
+                color: lineColor
             }
         }
     }).addTo(overlays.lines);
@@ -105,7 +106,18 @@ async function loadStops(url) {
     let jsondata = await response.json();
     //console.log(jsondata);
     L.geoJSON(jsondata, {
-        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
+        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>",
+        pointToLayer: function(feature, latlng) {
+            console.log(feature.properties)
+            
+            return L.marker(latlng, {
+                icon: L.icon({
+                    iconUrl: `icons/bus_${feature.properties.LINE_ID}.png`,
+                    iconAnchor: [16, 37],
+                    popupanchor: [0, -37]
+                })
+            });
+        }
     }).addTo(overlays.stops);
 }
 
@@ -120,7 +132,7 @@ async function loadZones(url) {
         style: function (feature) {
             //console.log(feature);
             return {
-                color:"#F012BE",
+                color: "#F012BE",
                 weight: 1,
                 opacity: 0.4,
                 fillOpacity: 0.1,
@@ -136,12 +148,42 @@ async function loadhotels(url) {
     let jsondata = await response.json();
     //console.log(jsondata);
     L.geoJSON(jsondata, {
-        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>"
-    }).addTo(overlays.hotels);
+        attribution: "Datenquelle: <a href='https://data.wien.gv.at'> Stadt Wien </a>",
+        pointToLayer: function (feature, latlng) {
+            console.log(feature.properties.KATEGORIE_TXT);
+            let iconName;
+            if (feature.properties.KATEGORIE_TXT == "1") {
+                iconName = "hotel_1stars.png";
+            } else if (feature.properties.KATEGORIE_TXT == "2") {
+                iconName = "hotel_2stars.png";
+
+            } else if (feature.properties.KATEGORIE_TXT == "3") {
+                iconName = "hotel_3stars.png";
+
+
+            } else if (feature.properties.KATEGORIE_TXT == "4") {
+                iconName = "hotel_4stars.png";
+
+            } else if (feature.properties.KATEGORIE_TXT == "5") {
+                iconName = "hotel_5stars.png";
+            } else {
+                iconName= "hotel_0stars.png"
+            }
+            console.log(iconName)
+
+            return L.marker(latlng, {
+                icon: L.icon({
+                    iconUrl: `icons/${iconName}`,
+                    iconAnchor: [16, 37],
+                    popupanchor: [0, -37]
+                })
+            });
+        }
+        }).addTo(overlays.hotels);
 }
 // geoJson laden und visualisieren
 //loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json")
-//loadStops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json")
+loadStops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json")
 //loadLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json")
 //loadSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
-loadhotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json")
+//loadhotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json")
