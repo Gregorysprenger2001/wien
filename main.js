@@ -150,6 +150,17 @@ async function loadStops(url) {
                     popupanchor: [0, -37]
                 })
             });
+        },
+        onEachFeature: function (feature, layer) {
+
+            layer.bindPopup(`
+
+                <h4> <i class="fa-solid fa-bus"></i> 
+                ${feature.properties.LINE_NAME}</h4>
+                <address>${feature.properties.STAT_NAME}</address>
+                
+                `);
+
         }
     }).addTo(overlays.stops);
 }
