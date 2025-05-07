@@ -109,9 +109,28 @@ async function loadLines(url) {
             return {
                 color: lineColor
             }
+        },
+        onEachFeature:
+        function (feature, layer) {
+
+            layer.bindPopup(`
+
+            <h4> <i class="fa-solid fa-bus"></i> 
+            ${feature.properties.LINE_NAME}</h4>
+            
+            <i class="fa-regular fa-circle-dot"></i> <start>${feature.properties.FROM_NAME}</start>
+             <br>
+            
+            <i class="fa-solid fa-route"></i> <br>
+            
+            <i class="fa-regular fa-circle-dot"></i> <end>${feature.properties.TO_NAME}</end>
+            
+            `);
+
         }
+
     }).addTo(overlays.lines);
-}
+};
 
 //Haltestellen
 async function loadStops(url) {
