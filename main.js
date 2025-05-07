@@ -181,9 +181,21 @@ async function loadZones(url) {
                 opacity: 0.4,
                 fillOpacity: 0.1,
             }
+        },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(`
+
+                <address>${feature.properties.ADRESSE}</address>
+                
+                <i class="fa-regular fa-clock"></i> <time>${feature.properties.ZEITRAUM}</time>
+                 <br> 
+                
+                <i class="fa-solid fa-circle-info"></i> <text>${feature.properties.AUSN_TEXT}</text>
+                
+                `);
         }
     }).addTo(overlays.zones);
-}
+};
 
 //Hotels und /Unterkünfte
 async function loadhotels(url) {
